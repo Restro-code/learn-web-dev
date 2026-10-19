@@ -1,13 +1,455 @@
-/* Стили страницы.
-   Пишите здесь. */
-
-* {
+/* ===== СБРОС И БАЗА ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+}
+
+:root {
+  --color-green: #4CAF50;
+  --color-orange: #F5A623;
+  --color-gray: #D9D9D9;
+  --color-gray-light: #F5F5F5;
+  --color-text: #1a1a1a;
+  --color-text-muted: #9E9E9E;
+  --color-bg: #ffffff;
+  --color-footer-dark: #3d4a3a;
+  --color-footer-light: #7a8f6f;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
-  min-height: 100vh;
-  font-family: sans-serif;
+  font-family: var(--font-family);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ===== ШАПКА ===== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background: var(--color-bg);
+  border-bottom: 1px solid #eee;
+}
+
+.header__logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.header__menu {
+  display: flex;
+  gap: 32px;
+}
+
+.header__link {
+  font-size: 15px;
+  font-weight: 500;
+  color: #555;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.header__link:hover {
+  color: var(--color-green);
+}
+
+/* ===== ИНДИКАТОР ШАГОВ ===== */
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Распределяем шаги от левого до правого края */
+  max-width: 1100px; /* Совпадает с шириной .booking */
+  margin: 0 auto;
+  padding: 40px 40px 20px; /* Горизонтальный отступ совпадает с .booking */
+  box-sizing: border-box;
+}
+
+.stepper__item {
+  display: flex;
+  align-items: center;
+  flex: 1; /* Растягиваем элементы, чтобы они заполнили всю ширину */
+}
+
+.stepper__item--last {
+  flex: 0; /* Последний элемент не растягивается, чтобы не ломать сетку */
+}
+
+.stepper__circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-gray);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0; /* Запрещаем кружку сжиматься */
+}
+
+.stepper__item--done .stepper__circle {
+  background: var(--color-green);
+}
+
+.stepper__item--active .stepper__circle {
+  background: var(--color-orange);
+}
+
+.stepper__line {
+  flex: 1; /* Линия растягивается на всё доступное пространство */
+  height: 3px;
+  background: var(--color-gray);
+  margin: 0 12px; /* Отступы от кружков */
+  width: auto; /* Убираем фиксированную ширину */
+}
+
+.stepper__line--done {
+  background: var(--color-green);
+}
+
+.stepper__line--active {
+  background: var(--color-orange);
+}
+/* ===== ОСНОВНОЙ БЛОК БРОНИРОВАНИЯ ===== */
+.main {
+  padding-bottom: 40px;
+}
+
+.booking {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 40px 40px;
+}
+
+.booking__header {
+  margin-bottom: 24px;
+}
+
+.booking__subtitle {
+  display: block;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.booking__title {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.booking__content {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* ===== КАЛЕНДАРЬ ===== */
+.calendar {
+  flex: 1;
+  background: var(--color-bg);
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.calendar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar__month {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.calendar__nav {
+  display: flex;
+  gap: 8px;
+}
+
+.calendar__arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--color-gray-light);
+  font-size: 18px;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.calendar__arrow:hover {
+  background: #e8e8e8;
+}
+
+.calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.calendar__weekday {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.calendar__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65px;  
+  height: 40px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.day:hover {
+  background: var(--color-gray-light);
+}
+
+.day--muted {
+  color: var(--color-text-muted);
+}
+
+.day--muted:hover {
+  background: transparent;
+  cursor: default;
+}
+
+.day--weekend {
+  color: var(--color-text-muted);
+}
+
+.day--selected {
+  background: var(--color-gray);
+  color: #030303;
+}
+
+.day--selected:hover {
+  background: #9b9b9b;
+  box-shadow: 0 4px 10px rgba(110, 110, 110, 0.3);
+}
+
+/* ===== СЛОТЫ ВРЕМЕНИ ===== */
+.timeslots {
+  width: 380px;
+  flex-shrink: 0;
+  background: var(--color-bg);
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.timeslots__title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.timeslots__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.slot {
+  height: 58px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--color-gray-light);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.slot:hover {
+  background: #e8e8e8;
+  transform: translateY(-1px);
+}
+
+.slot--busy {
+  background: #f0f0f0;
+  color: var(--color-text-muted);
+  opacity: 0.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  cursor: not-allowed;
+}
+
+.slot--busy:hover {
+  background: #f0f0f0;
+  transform: none;
+}
+
+.slot__busy {
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.confirm-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--color-text);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background: #333;
+}
+
+/* ===== ПОДВАЛ ===== */
+.footer {
+  background: linear-gradient(135deg, var(--color-footer-dark) 0%, var(--color-footer-light) 100%);
+  color: #fff;
+  padding: 50px 60px 30px;
+  margin-top: 40px;
+}
+
+.footer__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer__brand {
+  flex: 1;
+}
+
+.footer__logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.footer__description {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 280px;
+  line-height: 1.5;
+}
+
+.footer__contacts,
+.footer__schedule {
+  flex: 1;
+}
+
+.footer__heading {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.footer__address,
+.footer__phone,
+.footer__hours {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 8px;
+}
+
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.footer__policy {
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.footer__policy:hover {
+  color: #fff;
+}
+
+/* ===== АДАПТИВ (опционально) ===== */
+@media (max-width: 900px) {
+  .booking__content {
+    flex-direction: column;
+  }
+
+  .timeslots {
+    width: 100%;
+  }
+
+  .footer__top {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .header {
+    padding: 20px 24px;
+  }
+
+  .stepper {
+    padding: 30px 24px 20px;
+  }
+
+  .stepper__line {
+    width: 50px;
+  }
 }
