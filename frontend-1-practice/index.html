@@ -79,39 +79,36 @@
           </div>
 
           <div class="calendar__days">
-            <!-- Предыдущий месяц -->
-            <span class="day day--muted">26</span>
-            <span class="day day--muted">27</span>
-            <span class="day day--muted">28</span>
-            <span class="day day--muted">29</span>
-            <span class="day day--muted">30</span>
-            <span class="day day--muted">31</span>
-            <span class="day day--muted">1</span>
-
-            <!-- Июнь -->
-            <span class="day day--selected">2</span>
-            <span class="day day--selected">3</span>
-            <span class="day day--selected">4</span>
-            <span class="day day--selected">5</span>
-            <span class="day day--selected">6</span>
-            <span class="day day--weekend">7</span>
-            <span class="day day--weekend">8</span>
-
-            <span class="day day--selected">9</span>
-            <span class="day day--selected">10</span>
-            <span class="day day--selected">11</span>
-            <span class="day day--selected">12</span>
-            <span class="day day--selected">13</span>
-            <span class="day day--selected">14</span>
-            <span class="day day--selected">15</span>
-
-            <span class="day day--selected">16</span>
-            <span class="day day--selected">17</span>
-            <span class="day day--selected">18</span>
-            <span class="day day--selected">19</span>
-            <span class="day day--selected">20</span>
-            <span class="day day--selected">21</span>
-            <span class="day day--selected">22</span>
+            <button type="button" class="day" aria-pressed="false">1</button>
+            <button type="button" class="day" aria-pressed="false">2</button>
+            <button type="button" class="day" aria-pressed="false">3</button>
+            <button type="button" class="day" aria-pressed="false">4</button>
+            <button type="button" class="day" aria-pressed="false">5</button>
+            <button type="button" class="day day--weekend" aria-pressed="false">6</button>
+            <button type="button" class="day day--weekend" aria-pressed="false">7</button>
+            <button type="button" class="day" aria-pressed="false">8</button>
+            <button type="button" class="day" aria-pressed="false">9</button>
+            <button type="button" class="day" aria-pressed="false">10</button>
+            <button type="button" class="day" aria-pressed="false">11</button>
+            <button type="button" class="day" aria-pressed="false">12</button>
+            <button type="button" class="day day--weekend" aria-pressed="false">13</button>
+            <button type="button" class="day day--weekend" aria-pressed="false">14</button>
+            <button type="button" class="day" aria-pressed="false">15</button>
+            <button type="button" class="day" aria-pressed="false">16</button>
+            <button type="button" class="day day--selected" aria-pressed="true">17</button>
+            <button type="button" class="day" aria-pressed="false">18</button>
+            <button type="button" class="day" aria-pressed="false">19</button>
+            <button type="button" class="day day--weekend" aria-pressed="false">20</button>
+            <button type="button" class="day day--weekend" aria-pressed="false">21</button>
+            <button type="button" class="day" aria-pressed="false">22</button>
+            <button type="button" class="day" aria-pressed="false">23</button>
+            <button type="button" class="day" aria-pressed="false">24</button>
+            <button type="button" class="day" aria-pressed="false">25</button>
+            <button type="button" class="day" aria-pressed="false">26</button>
+            <button type="button" class="day day--weekend" aria-pressed="false">27</button>
+            <button type="button" class="day day--weekend" aria-pressed="false">28</button>
+            <button type="button" class="day" aria-pressed="false">29</button>
+            <button type="button" class="day" aria-pressed="false">30</button>
           </div>
         </section>
 
@@ -120,20 +117,20 @@
           <h2 class="timeslots__title">Доступное время</h2>
 
           <div class="timeslots__grid">
-            <button class="slot">10:00</button>
-            <button class="slot slot--busy">
+            <button type="button" class="slot" aria-pressed="false">10:00</button>
+            <button type="button" class="slot slot--busy" disabled>
               11:00
               <span class="slot__busy">Занято</span>
             </button>
-            <button class="slot">12:00</button>
-            <button class="slot slot--busy">
+            <button type="button" class="slot slot--selected" aria-pressed="true">12:00</button>
+            <button type="button" class="slot slot--busy" disabled>
               13:00
               <span class="slot__busy">Занято</span>
             </button>
-            <button class="slot">14:00</button>
-            <button class="slot">15:00</button>
-            <button class="slot">16:00</button>
-            <button class="slot">17:00</button>
+            <button type="button" class="slot" aria-pressed="false">14:00</button>
+            <button type="button" class="slot" aria-pressed="false">15:00</button>
+            <button type="button" class="slot" aria-pressed="false">16:00</button>
+            <button type="button" class="slot" aria-pressed="false">17:00</button>
           </div>
 
           <button class="confirm-btn">Подтвердить</button>

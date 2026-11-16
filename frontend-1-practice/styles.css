@@ -170,6 +170,7 @@ ul {
 
 /* ===== КАЛЕНДАРЬ ===== */
 .calendar {
+  min-width: 0;
   flex: 1;
   background: var(--color-bg);
   border: 1px solid #eee;
@@ -214,7 +215,7 @@ ul {
 
 .calendar__weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 12px;
 }
@@ -228,7 +229,7 @@ ul {
 
 .calendar__days {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -236,7 +237,8 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 65px;  
+  width: 100%;
+  min-width: 0;
   height: 40px;
   border-radius: 10px;
   font-size: 14px;
@@ -452,4 +454,28 @@ ul {
   .stepper__line {
     width: 50px;
   }
+}
+button:focus-visible {
+  outline: 3px solid var(--color-orange);
+  outline-offset: 3px;
+}
+
+.slot--selected,
+.slot--selected:hover {
+  background: var(--color-green);
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .calendar { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .booking { padding: 20px 16px 32px; }
+  .calendar, .timeslots { padding: 16px; }
+  .calendar__days, .calendar__weekdays { gap: 4px; }
+  .header { flex-wrap: wrap; gap: 16px; }
+  .header__menu { flex-wrap: wrap; gap: 12px; }
+  .footer { padding: 32px 16px; }
+  .footer__bottom { flex-wrap: wrap; gap: 12px; }
 }

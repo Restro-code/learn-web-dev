@@ -3,7 +3,7 @@
 // ============================================================================
 
 
-const TODAY = new Date(2026, 10, 20);
+const TODAY = new Date();
 
 const MONTH_NAMES = [
   "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
@@ -27,9 +27,9 @@ const BASE_SLOTS = [
 
 
 const state = {
-  currentYear: 2026,
-  currentMonth: 10,
-  selectedDate: new Date(2026, 10, 20),
+  currentYear: TODAY.getFullYear(),
+  currentMonth: TODAY.getMonth(),
+  selectedDate: new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate()),
   selectedTime: null,
 };
 
@@ -85,11 +85,16 @@ function renderCalendar() {
                        state.currentMonth === state.selectedDate.getMonth() && 
                        state.currentYear === state.selectedDate.getFullYear();
 
-    const dayEl = document.createElement('span');
+    const dayEl = document.createElement('button');
+    dayEl.type = 'button';
+    dayEl.setAttribute('aria-pressed', String(Boolean(isSelected)));
     dayEl.className = 'day';
     dayEl.textContent = d;
 
-    if (isPast || isWeekend) {
+    if (isWeekend) dayEl.classList.add('day--weekend');
+
+    if (isPast) {
+      dayEl.disabled = true;
       dayEl.classList.add('day--muted');
       dayEl.style.cursor = 'not-allowed';
     } else {
@@ -113,11 +118,18 @@ function renderSlots() {
   const grid = document.querySelector('.timeslots__grid');
   grid.innerHTML = '';
 
+  if (!state.selectedDate) {
+    grid.textContent = 'Выберите дату, чтобы увидеть доступное время.';
+    return;
+  }
+
   const slots = getSlotsForDate(state.selectedDate);
 
   slots.forEach(slot => {
     const btn = document.createElement('button');
+    btn.type = 'button';
     btn.className = 'slot';
+    btn.setAttribute('aria-pressed', String(state.selectedTime === slot.time));
     
     if (!slot.available) {
       btn.classList.add('slot--busy');
@@ -127,12 +139,7 @@ function renderSlots() {
       btn.textContent = slot.time;
       
       if (state.selectedTime === slot.time) {
-        btn.style.background = 'var(--color-green)';
-        btn.style.color = '#fff';
-      } else {
-        // Сбрасываем инлайн-стили, чтобы работали CSS hover-эффекты
-        btn.style.background = '';
-        btn.style.color = '';
+        btn.classList.add('slot--selected');
       }
 
       btn.addEventListener('click', () => {
@@ -148,6 +155,12 @@ function renderSlots() {
 function updateConfirmButton() {
   const btn = document.querySelector('.confirm-btn');
   if (!btn) return;
+
+  const summary = document.querySelector('.booking-summary');
+  summary.textContent = state.selectedDate
+    ? `${state.selectedDate.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} • ${state.selectedTime || 'Выберите время'}`
+    : 'Выберите дату и время';
+  document.querySelector('.booking-status').textContent = '';
 
   if (state.selectedDate && state.selectedTime) {
     // Активное состояние: чёрная кнопка
@@ -178,7 +191,11 @@ function initCalendarNavigation() {
       state.currentMonth = 11;
       state.currentYear--;
     }
+    state.selectedDate = null;
+    state.selectedTime = null;
     renderCalendar();
+    renderSlots();
+    updateConfirmButton();
   });
 
   nextBtn.addEventListener('click', () => {
@@ -187,7 +204,11 @@ function initCalendarNavigation() {
       state.currentMonth = 0;
       state.currentYear++;
     }
+    state.selectedDate = null;
+    state.selectedTime = null;
     renderCalendar();
+    renderSlots();
+    updateConfirmButton();
   });
 }
 
@@ -200,6 +221,14 @@ function init() {
   if (state.selectedDate < todayStart) {
     state.selectedDate = new Date(todayStart);
   }
+
+  document.querySelector('.confirm-btn').addEventListener('click', () => {
+    if (!state.selectedDate || !state.selectedTime) return;
+    const slot = getSlotsForDate(state.selectedDate).find(item => item.time === state.selectedTime);
+    if (!slot || !slot.available) return;
+    document.querySelector('.booking-status').textContent =
+      'Запись подтверждена: ' + document.querySelector('.booking-summary').textContent;
+  });
 
   initCalendarNavigation();
   renderCalendar();
